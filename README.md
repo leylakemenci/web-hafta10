@@ -1,36 +1,147 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<div align="center">
 
-## Getting Started
+# 🚀 Kişisel Portfolyo — Leyla Kemenci
 
-First, run the development server:
+**Next.js 15 · Tailwind CSS · Docker · GitHub Actions · Fly.io**
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+[![CI/CD](https://img.shields.io/github/actions/workflow/status/leylakemenci/web-hafta10/ci.yml?style=flat-square&label=CI%2FCD&logo=github-actions)](https://github.com/leylakemenci/web-hafta10/actions)
+[![Docker](https://img.shields.io/badge/Docker-multi--stage-blue?style=flat-square&logo=docker)](./Dockerfile)
+[![Next.js](https://img.shields.io/badge/Next.js-16-black?style=flat-square&logo=next.js)](https://nextjs.org)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green?style=flat-square)](LICENSE)
+
+> Mezuniyet sonrası iş başvurularında kullanmak üzere geliştirilen, **DevOps pipeline'ı** ile birlikte canlıya alınan kişisel portfolyo sitesi.
+
+---
+
+</div>
+
+## 📸 Önizleme
+
+| Hero | Projeler | İletişim |
+|:---:|:---:|:---:|
+| Modern tasarım | 3+ gerçek proje | Canlı iletişim formu |
+
+---
+
+## 🏗️ Mimari
+
+```mermaid
+graph TD
+    A[💻 Git Push / PR] -->|Tetikler| B(⚡ GitHub Actions CI)
+    B --> C{🔒 Güvenlik Kapısı}
+    C -->|🔑 Gitleaks| D[Secret Scanning]
+    C -->|🛡️ Trivy| E[Container CVE Scan]
+    C -->|🔬 Semgrep| F[SAST Analiz]
+    C -->|✅ Geçti| G[🐳 Docker Build]
+    G --> H[(📦 GHCR Registry)]
+    H --> I{🌐 Deploy Ortamı}
+    I -->|Seçenek A| J[✈️ Fly.io PaaS]
+    I -->|Seçenek B| K[🏠 VPS + Coolify]
+    J --> L[🌍 portfolyo.dev]
+    K --> L
+    L -->|📊 İzleme| M((Better Stack\nUptime Monitor))
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## ✨ Sayfa Bölümleri
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| # | Bölüm | İçerik |
+|---|-------|--------|
+| 1 | **Hero** | Ad + Rol + Pitch + CTA butonları |
+| 2 | **Projeler** | 3 gerçek proje, tech stack, GitHub + canlı linkler |
+| 3 | **Yetkinlikler** | Frontend / Backend / DevOps kategorileri |
+| 4 | **Deneyim** | Staj, freelance, open-source katkıları |
+| 5 | **Eğitim** | BEÜ Bilgisayar Müh. + GPA + Önemli dersler |
+| 6 | **Hobiler** | 4 hobi ile kişisel marka sinyali |
+| 7 | **İletişim** | E-posta + GitHub + LinkedIn |
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## 🛠️ Teknoloji Yığını
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+**Frontend:** Next.js 15 (App Router) · TypeScript · Tailwind CSS v4 · React Icons  
+**DevOps:** Docker (multi-stage, standalone) · GitHub Actions · GHCR  
+**Güvenlik:** Gitleaks · Trivy · Semgrep  
+**Deploy:** Fly.io / Docker Compose  
+**Monitoring:** Better Stack Uptime
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## 🚀  Yerel Çalıştırma
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Geliştirme Modu
+```bash
+git clone https://github.com/leylakemenci/web-hafta10.git
+cd web-hafta10/portfolyo
+npm install
+npm run dev
+```
+Tarayıcıda aç: [http://localhost:3000](http://localhost:3000)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Docker ile Çalıştırma
+```bash
+docker-compose up --build
+```
+Sağlık kontrolü: [http://localhost:3000/api/health](http://localhost:3000/api/health)
+
+---
+
+## 🌐 Canlıya Çıkarma
+
+### Fly.io (Ücretsiz — Önerilen Hızlı Yol)
+```bash
+fly auth login
+fly launch        # İlk kez
+# veya
+fly deploy        # Sonraki güncellemeler
+```
+
+### VPS + Coolify (Sektör Standardı)
+1. Hetzner CX22 VPS al (€4.51/ay)
+2. Coolify kur: `curl -fsSL https://cdn.coollabs.io/coolify/install.sh | bash`
+3. Coolify panelinden bu repo'yu bağla → otomatik deploy
+
+---
+
+## 🔒 DevSecOps Pipeline
+
+Her `git push` / Pull Request'te sırasıyla çalışır:
+
+```
+🔑 Gitleaks        → Commit'lerde şifre/token sızdı mı?
+🔬 Semgrep         → Statik kod analizi (SAST)
+🐳 Docker Build    → Image oluştur
+🛡️ Trivy           → Container güvenlik açıkları (CRITICAL = ❌ block)
+📦 GHCR Push       → Temiz image registry'ye gönder
+```
+
+---
+
+## 📊 Sağlık & İzleme
+
+`GET /api/health` yanıtı:
+```json
+{
+  "status": "ok",
+  "uptime": 3600.24,
+  "timestamp": "2026-04-27T11:00:00.000Z"
+}
+```
+
+Better Stack izleme kurulumu:
+1. [betterstack.com](https://betterstack.com) → **New Monitor**
+2. URL: `https://leyla.dev/api/health`
+3. Kontrol aralığı: **30 saniye**
+
+---
+
+## 🤖 AI Kullanım Beyanı
+
+Bu projenin geliştirilmesinde (mimari tasarım, kod üretimi ve DevOps yapılandırması) **Google Gemini Agentic AI** kullanılmıştır. Üretilen tüm kod, kalite ve güvenlik standartlarına göre gözden geçirilmiş ve kişiselleştirilmiştir.
+
+---
+
+## 📄 Lisans
+
+MIT © 2026 [Leyla Kemenci](https://github.com/leylakemenci)
